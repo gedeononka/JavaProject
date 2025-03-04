@@ -6,6 +6,7 @@ module com.example.bank {
     requires layout;
     requires kernel;
     requires io;
+    requires jbcrypt;
 
 
     opens com.bank to javafx.fxml;

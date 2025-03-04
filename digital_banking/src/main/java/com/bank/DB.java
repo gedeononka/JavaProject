@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
-import java.util.Date;
 
 public class DB {
 
@@ -20,7 +19,7 @@ public class DB {
     public DB() {
     }
 
-    public void connect() {
+    public Connection connect() {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -32,6 +31,7 @@ public class DB {
 
         }
 
+        return null;
     }
 
     public Connection getConnection() {
