@@ -1,86 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bank.Controllers.compteController">
+<Pane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bank.Controllers.compteController" prefWidth="650" prefHeight="500">
    <children>
-      <TableView fx:id="tv_comptes" layoutX="14.0" layoutY="55.0" prefHeight="261.0" prefWidth="480.0">
+      <!-- Titre -->
+      <Label layoutX="20" layoutY="10" text="Gestion des Comptes" style="-fx-font-size: 24px; -fx-text-fill: #2980b9; -fx-font-weight: bold;" />
+
+      <!-- Zone de recherche -->
+      <HBox layoutX="20" layoutY="50" spacing="10">
+         <TextField fx:id="tf_cin" promptText="Rechercher CIN" prefWidth="150" />
+         <Button fx:id="btn_search" text="Rechercher" style="-fx-background-color: #2980b9; -fx-text-fill: white;" />
+         <Button fx:id="btn_load" text="Load" style="-fx-background-color: #292e30; -fx-text-fill: white;" />
+      </HBox>
+
+      <!-- Table des comptes -->
+      <TableView fx:id="tv_comptes" layoutX="20" layoutY="90" prefWidth="610" prefHeight="250">
          <columns>
-            <TableColumn fx:id="tc_num" prefWidth="75.0" text="Numéro" />
-            <TableColumn fx:id="tc_ty" prefWidth="75.0" text="Type" />
-            <TableColumn fx:id="tc_sol" prefWidth="75.0" text="Solde" />
-            <TableColumn fx:id="tc_cin" prefWidth="75.0" text="CIN" />
-            <TableColumn fx:id="tc_etat" prefWidth="75.0" text="État" />
-            <TableColumn fx:id="tc_date_ouverture" prefWidth="100.0" text="Date Ouverture" />
+            <TableColumn fx:id="tc_num" text="Numéro" prefWidth="100"/>
+            <TableColumn fx:id="tc_ty" text="Type" prefWidth="100"/>
+            <TableColumn fx:id="tc_sol" text="Solde" prefWidth="100"/>
+            <TableColumn fx:id="tc_cin" text="CIN" prefWidth="100"/>
+            <TableColumn fx:id="tc_etat" text="État" prefWidth="100"/>
+            <TableColumn fx:id="tc_date_ouverture" text="Date Ouverture" prefWidth="120"/>
          </columns>
       </TableView>
-      <Label layoutX="44.0" text="Gestion des Comptes" textFill="#2980b9">
-         <font>
-            <Font size="33.0" />
-         </font>
-      </Label>
-      <Button fx:id="btn_activ" layoutX="453.0" layoutY="325.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: transparent; -fx-text-fill: #2980b9;" text="Activer/Désactiver" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="btn_load" layoutX="540.0" layoutY="70.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #292e30;" text="Load" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Button>
-      <TextField fx:id="tf_cin" layoutX="496.0" layoutY="16.0" onInputMethodTextChanged="#searchCINCompte" prefHeight="25.0" prefWidth="110.0" promptText="CIN" />
-      <Label fx:id="label" layoutX="22.0" layoutY="405.0" prefHeight="17.0" prefWidth="277.0" textFill="#df1a1a">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-      <Button fx:id="btn_search" layoutX="403.0" layoutY="16.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Rechercher" />
-      <HBox layoutX="44.0" layoutY="334.0" prefHeight="30.0" prefWidth="419.0">
-         <children>
-            <Label fx:id="lab_id" prefHeight="17.0" prefWidth="92.0" text="N°" />
-            <Label fx:id="lab_ty" prefHeight="17.0" prefWidth="92.0" text="Type" />
-            <Label fx:id="lab_sol" prefHeight="17.0" prefWidth="92.0" text="Solde" />
-            <Label fx:id="lab_cin" prefHeight="17.0" prefWidth="92.0" text="CIN" />
-            <Label fx:id="lab_et" prefHeight="17.0" prefWidth="92.0" text="Etat" />
-         </children>
+
+      <!-- Section pour afficher les détails du compte -->
+      <HBox layoutX="20" layoutY="350" spacing="15">
+         <Label fx:id="lab_id" text="N°" style="-fx-font-weight: bold;" />
+         <Label fx:id="lab_ty" text="Type" />
+         <Label fx:id="lab_sol" text="Solde" />
+         <Label fx:id="lab_cin" text="CIN" />
+         <Label fx:id="lab_et" text="État" />
       </HBox>
-      <HBox layoutX="14.0" layoutY="405.0">
-         <children>
-            <TextField fx:id="tf_ci_add" prefHeight="26.0" prefWidth="122.0" promptText="CIN" />
-            <ComboBox fx:id="cb_type" prefHeight="26.0" prefWidth="112.0" promptText="Type compte" />
-            <Region prefHeight="30.0" prefWidth="222.0" />
-            <Button fx:id="btn_valider" mnemonicParsing="false" prefHeight="30.0" prefWidth="128.0" style="-fx-background-color: #2980b9;" text="Valider" textFill="#f7f6f6">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
-         </children>
+
+      <!-- Boutons d'action -->
+      <HBox layoutX="20" layoutY="380" spacing="10">
+         <Button fx:id="btn_activ" text="Activer/Désactiver" style="-fx-background-color: #e67e22; -fx-text-fill: white;" prefWidth="150"/>
       </HBox>
-      <Separator layoutX="-4.0" layoutY="391.0" prefHeight="3.0" prefWidth="623.0" style="-fx-background-color: #2980b9;" />
-      <Label layoutX="14.0" layoutY="371.0" text="Ouvrir un nouveau compte" textFill="#2980b9">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <VBox layoutX="528.0" layoutY="140.0">
-         <children>
-            <RadioButton fx:id="rb_activ" mnemonicParsing="false" text="Activés" />
-            <RadioButton fx:id="rb_desactiv" mnemonicParsing="false" text="Désactivés" />
-            <RadioButton fx:id="rb_both" mnemonicParsing="false" text="Tous" />
-         </children>
-      </VBox>
+
+      <!-- Séparateur -->
+      <Separator layoutX="20" layoutY="420" prefWidth="610" />
+
+      <!-- Section ouverture de compte -->
+      <Label layoutX="20" layoutY="430" text="Ouvrir un nouveau compte" style="-fx-font-size: 14px; -fx-text-fill: #2980b9;" />
+      <HBox layoutX="20" layoutY="450" spacing="10">
+         <TextField fx:id="tf_ci_add" promptText="CIN" prefWidth="120"/>
+         <ComboBox fx:id="cb_type" promptText="Type compte" prefWidth="120"/>
+         <Button fx:id="btn_valider" text="Valider" style="-fx-background-color: #27ae60; -fx-text-fill: white;" prefWidth="120"/>
+      </HBox>
    </children>
 </Pane>

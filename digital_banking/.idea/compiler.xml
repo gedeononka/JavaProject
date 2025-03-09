@@ -13,7 +13,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Bank" options="" />
+      <module name="Bank" options="--add-exports javafx.graphics/com.sun.javafx.tk.quantum=com.example.bank" />
     </option>
   </component>
 </project>

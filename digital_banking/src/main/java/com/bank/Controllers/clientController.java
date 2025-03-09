@@ -27,6 +27,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 public class clientController {
     @FXML
@@ -125,23 +126,52 @@ public class clientController {
             }
         }
     }
-
     @FXML
     public void register(MouseEvent event) {
-        clt = new ClientModel();
+        // Vérifier si tous les champs sont remplis
+        if (tf_ci.getText().isEmpty() || tf_np.getText().isEmpty() || tf_date.getValue() == null ||
+                tf_tel.getText().isEmpty() || tf_em.getText().isEmpty() || tf_adr.getText().isEmpty()) {
+            showAlert("Erreur", "Tous les champs doivent être remplis !");
+            return;
+        }
 
+        // Vérification du format du CIN (doit être un nombre)
+        long idClt;
+        try {
+            idClt = Long.parseLong(tf_ci.getText());
+        } catch (NumberFormatException e) {
+            showAlert("Erreur", "Le CIN doit être un nombre valide !");
+            return;
+        }
+
+        // Vérification du format du téléphone (uniquement chiffres, longueur minimale 8)
+        if (!tf_tel.getText().matches("\\d{8,}")) {
+            showAlert("Erreur", "Le numéro de téléphone doit contenir au moins 8 chiffres !");
+            return;
+        }
+
+        // Vérification du format de l'email
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        if (!Pattern.matches(emailRegex, tf_em.getText())) {
+            showAlert("Erreur", "L'adresse email n'est pas valide !");
+            return;
+        }
+
+        // Conversion de la date
         ZoneId defaultZoneId = ZoneId.systemDefault();
         Date date1 = Date.from(tf_date.getValue().atStartOfDay(defaultZoneId).toInstant());
+        java.sql.Date sqlDate1 = new java.sql.Date(date1.getTime());
 
-        clt.setId_clt(Long.parseLong(tf_ci.getText()));
+        // Création du modèle
+        clt = new ClientModel();
+        clt.setId_clt(idClt);
         clt.setNomPrenom(tf_np.getText());
         clt.setDate_n(date1);
         clt.setTel(tf_tel.getText());
         clt.setEmail(tf_em.getText());
         clt.setAdr(tf_adr.getText());
 
-        java.sql.Date sqlDate1 = new java.sql.Date(date1.getTime());
-
+        // Enregistrement en base de données
         try {
             DB db = new DB();
             conn = db.getConnection();
@@ -154,10 +184,27 @@ public class clientController {
             pstmt.setString(5, clt.getEmail());
             pstmt.setString(6, clt.getAdr());
             pstmt.executeUpdate();
-            load_page(null);  // reload clients list after insert
+
+            // Afficher un message de succès
+            showAlert("Succès", "Client enregistré avec succès !");
+
+            // Fermer la fenêtre actuelle
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.close();
+
         } catch (SQLException e) {
+            showAlert("Erreur", "Une erreur est survenue lors de l'enregistrement !");
             e.printStackTrace();
         }
+    }
+
+    // Fonction pour afficher une alerte
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML

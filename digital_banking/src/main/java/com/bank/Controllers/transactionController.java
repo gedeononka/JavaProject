@@ -61,25 +61,6 @@ public class transactionController implements Initializable {
 
     @FXML
     private TableColumn<RetraitModel, Long> tc_ret_op;
-
-    @FXML
-    private TableView<VirementModel> tv_virement;
-
-    @FXML
-    private TableColumn<VirementModel, Long> tc_vir_ben;
-
-    @FXML
-    private TableColumn<VirementModel, Date> tc_vir_date;
-
-    @FXML
-    private TableColumn<VirementModel, Long> tc_vir_em;
-
-    @FXML
-    private TableColumn<VirementModel, Float> tc_vir_mnt;
-
-    @FXML
-    private TableColumn<VirementModel, Long> tc_vir_op;
-
     @FXML
     private Button btn_conf1;
 
@@ -95,8 +76,7 @@ public class transactionController implements Initializable {
     @FXML
     private Button btn_search2;
 
-    @FXML
-    private Button btn_search3;
+
 
     @FXML
     private Label lab_err1;
@@ -194,7 +174,6 @@ public class transactionController implements Initializable {
         btn_load.setOnMouseClicked(event -> {
             loadDataDepot();
             loadDataRetrait();
-            loadDataVirement();
         });
         btn_search1.setOnMouseClicked(event -> {
             searchNUMCompte1();
@@ -203,10 +182,6 @@ public class transactionController implements Initializable {
             searchNUMCompte2();
         });
 
-        btn_search3.setOnMouseClicked(event -> {
-            searchNUMCompte3();
-            searchNUMCompte4();
-        });
 
         btn_conf1.setOnMouseClicked(event -> {
             updateCompteDepot();
@@ -216,9 +191,6 @@ public class transactionController implements Initializable {
             updateCompteRetrait();
         });
 
-        btn_conf3.setOnMouseClicked(event -> {
-            updateCompteVirement();
-        });
 
 
     }
@@ -287,39 +259,6 @@ public class transactionController implements Initializable {
         }
     }
 
-    @FXML
-    public void loadDataVirement() {
-        Connection conn;
-        PreparedStatement pst;
-        try {
-            DB db = new DB();
-            conn = db.getConnection();
-            pst = conn.prepareStatement("select * from transactions where type_op=3");
-            ResultSet rs = pst.executeQuery();
-            tv_virement.getItems().clear();
-
-
-            while (rs.next()) {
-                tc_vir_op.setCellValueFactory(new PropertyValueFactory<VirementModel, Long>("num_op"));
-                tc_vir_date.setCellValueFactory(new PropertyValueFactory<VirementModel, Date>("date_op"));
-                tc_vir_mnt.setCellValueFactory(new PropertyValueFactory<VirementModel, Float>("mnt_op"));
-                tc_vir_em.setCellValueFactory(new PropertyValueFactory<VirementModel, Long>("num_c_em"));
-                tc_vir_ben.setCellValueFactory(new PropertyValueFactory<VirementModel, Long>("num_c_ben"));
-
-                ObservableList<VirementModel> data = FXCollections.observableArrayList(
-                        new VirementModel(rs.getLong("num_op"),
-                                rs.getDate("date_op"),
-                                rs.getDouble("mnt_op"),
-                                rs.getLong("num_c_em"),
-                                rs.getLong("num_c_ben")
-                        ));
-                tv_virement.getItems().addAll(data);
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     void searchNUMCompte1() {
         Connection conn;
@@ -561,98 +500,7 @@ public class transactionController implements Initializable {
         }
     }
 
-    @FXML
-    private void updateCompteVirement() {
 
-        Connection conn;
-        PreparedStatement pst;
-        if (tf_mnt3.getText() == "") {
-            lab_err3.setText("Entrez un montant");
-
-        } else {
-
-        }
-        CompteModel cpt1 = new CompteModel(Long.parseLong(lab_id3.getText()),
-                TypeCompte.valueOf(lab_ty3.getText()),
-                Float.parseFloat(lab_sol3.getText()),
-                Long.parseLong(lab_cin3.getText())
-        );
-
-        CompteModel cpt2 = new CompteModel(Long.parseLong(lab_id4.getText()),
-                TypeCompte.valueOf(lab_ty4.getText()),
-                Float.parseFloat(lab_sol4.getText()),
-                Long.parseLong(lab_cin4.getText())
-        );
-
-        if ("Cloturé".equals(lab_et3.getText())) {
-            cpt1.setEtat(false);
-            lab_err3.setText("Compte cloturé - transaction impossible");
-        } else {
-            if ("Cloturé".equals(lab_et4.getText())) {
-                cpt2.setEtat(false);
-                lab_err3.setText("Compte cloturé - transaction impossible");
-            } else {
-                if ((Float.parseFloat(lab_sol3.getText()) < Double.valueOf(tf_mnt3.getText())))
-                    lab_err3.setText("Solde insuffisant - transaction impossible");
-
-                else {
-
-                    Double montant = Double.valueOf(tf_mnt3.getText());
-                    cpt1.virerVers(cpt2, montant);
-
-                    try {
-                        DB db = new DB();
-                        conn = db.getConnection();
-                        String sql = "UPDATE comptes SET solde_c=?  WHERE num_c=?";
-                        pst = conn.prepareStatement(sql);
-                        pst.setDouble(1, cpt1.getSolde_c());
-                        pst.setLong(2, cpt1.getNum_c());
-                        pst.executeUpdate();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        DB db = new DB();
-                        conn = db.getConnection();
-                        String sql = "UPDATE comptes SET solde_c=?  WHERE num_c=?";
-                        pst = conn.prepareStatement(sql);
-                        pst.setDouble(1, cpt2.getSolde_c());
-                        pst.setLong(2, cpt2.getNum_c());
-                        pst.executeUpdate();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                    Date date = new Date();
-                    formatter.format(date);
-                    long timeInMilliSeconds = date.getTime();
-                    java.sql.Date sqlDate = new java.sql.Date(timeInMilliSeconds);
-
-                    VirementModel depot = new VirementModel(date, montant, cpt1.getNum_c(), cpt2.getNum_c());
-                    //Date date_op, float mnt_op,long num_c_em
-                    try {
-                        DB db = new DB();
-                        conn = db.getConnection();
-                        String sql = "INSERT INTO `transactions`( `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES (3,?,?,?,?)";
-                        pst = conn.prepareStatement(sql);
-                        pst.setDate(1, sqlDate);
-                        pst.setDouble(2, montant);
-                        pst.setLong(3, cpt1.getNum_c());
-                        pst.setLong(4, cpt2.getNum_c());
-                        pst.executeUpdate();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-
-                    lab_sol3.setText(String.valueOf(cpt1.getSolde_c()));
-                    lab_sol4.setText(String.valueOf(cpt2.getSolde_c()));
-
-
-                }
-            }
-        }
-    }
     @FXML
     public void saveDepotPDF() {
         generateDepotPDF(tv_depot.getItems(), "depot.pdf");
@@ -663,10 +511,6 @@ public class transactionController implements Initializable {
         generateRetraitPDF(tv_retrait.getItems(), "retrait.pdf");
     }
 
-    @FXML
-    public void saveVirementPDF() {
-        generateVirementPDF(tv_virement.getItems(), "virement.pdf");
-    }
 
     private void generateDepotPDF(ObservableList<DepotModel> transactions, String fileName) {
         try {
@@ -708,24 +552,5 @@ public class transactionController implements Initializable {
         }
     }
 
-    private void generateVirementPDF(ObservableList<VirementModel> transactions, String fileName) {
-        try {
-            PdfWriter writer = new PdfWriter(new FileOutputStream(fileName));
-            PdfDocument pdf = new PdfDocument(writer);
-            Document document = new Document(pdf);
-
-            document.add(new Paragraph("Virements").setFontSize(18));
-            document.add(new Paragraph("Date: " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())));
-
-            for (VirementModel transaction : transactions) {
-                document.add(new Paragraph(transaction.toString()));
-            }
-
-            document.close();
-            System.out.println("PDF generated: " + fileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 }

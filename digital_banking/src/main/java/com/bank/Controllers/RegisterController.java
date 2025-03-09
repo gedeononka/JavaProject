@@ -1,6 +1,8 @@
 package com.bank.Controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
@@ -8,12 +10,17 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import com.bank.DB;  // Assuming you have a DB class for database connection
+import javafx.stage.Window;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.sql.*;
 
 public class RegisterController {
+
+    @FXML
+    private Button backButton;
 
     @FXML
     private TextField usernameField;
@@ -81,6 +88,19 @@ public class RegisterController {
             currentStage.close();
         } catch (IOException e) {
             System.out.println("Error loading login screen.");
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleBackToLogin(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/bank/views/login.fxml"));
+            Parent loginRoot = loader.load();
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(new Scene(loginRoot));
+            stage.show();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

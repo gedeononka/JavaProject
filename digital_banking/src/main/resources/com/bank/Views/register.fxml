@@ -1,52 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.control.Separator?>
 
-<Pane fx:id="registerPane" prefHeight="478.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bank.Controllers.RegisterController">
+<AnchorPane prefHeight="478.0" prefWidth="711.0" style="-fx-background-color: linear-gradient(to bottom, #2c3e50, #2980b9);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bank.Controllers.RegisterController">
     <children>
-        <!-- Digital Bank Header -->
-        <Label layoutX="116.0" layoutY="57.0" prefHeight="119.0" prefWidth="456.0" text="Digital bank" textAlignment="CENTER" textFill="#2980b9">
+        <!-- Titre principal -->
+        <Label layoutX="120.0" layoutY="50.0" prefHeight="100.0" prefWidth="470.0" text="Digital Bank" textAlignment="CENTER" textFill="WHITE">
             <font>
-                <Font size="81.0" />
+                <Font name="Arial Black" size="65.0" />
             </font>
         </Label>
 
-        <!-- Gedeon Banking System Subheader -->
-        <Label layoutX="141.0" layoutY="210.0" prefHeight="59.0" prefWidth="430.0" text=" Gedeon Banking System" textAlignment="CENTER" textFill="#2980b9">
+        <!-- Sous-titre -->
+        <Label layoutX="140.0" layoutY="160.0" prefHeight="50.0" prefWidth="450.0" text="Gedeon Banking System" textAlignment="CENTER" textFill="WHITE">
             <font>
-                <Font size="36.0" />
+                <Font name="Arial" size="28.0" />
             </font>
         </Label>
 
-        <!-- Separator Line -->
-        <Separator layoutX="150.0" layoutY="194.0" prefHeight="8.0" prefWidth="387.0" style="-fx-background-color: #2980b9;" />
+        <!-- Ligne de séparation -->
+        <Separator layoutX="150.0" layoutY="220.0" prefHeight="3.0" prefWidth="400.0" style="-fx-background-color: white;" />
 
-        <!-- Username Label -->
-        <Label layoutX="171.0" layoutY="290.0" text="Username:" textFill="#2980b9">
-            <font>
-                <Font size="14.0" />
-            </font>
-        </Label>
-
-        <!-- Username TextField -->
-        <TextField layoutX="171.0" layoutY="320.0" prefWidth="370.0" fx:id="usernameField" promptText="Enter your username"/>
-
-        <!-- Password Label -->
-        <Label layoutX="171.0" layoutY="360.0" text="Password:" textFill="#2980b9">
+        <!-- Label Username -->
+        <Label layoutX="171.0" layoutY="260.0" text="Username:" textFill="WHITE">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
 
-        <!-- PasswordField -->
-        <PasswordField layoutX="171.0" layoutY="390.0" prefWidth="370.0" fx:id="passwordField" promptText="Enter your password"/>
+        <!-- Champ Username -->
+        <TextField layoutX="171.0" layoutY="285.0" prefWidth="370.0" fx:id="usernameField" promptText="Enter your username"/>
 
-        <!-- OK Button -->
-        <Button layoutX="171.0" layoutY="440.0" text="OK" prefWidth="170.0" style="-fx-background-color: #2980b9; -fx-text-fill: white;" fx:id="okButton" onAction="#handleCreate"/>
+        <!-- Label Password -->
+        <Label layoutX="171.0" layoutY="325.0" text="Password:" textFill="WHITE">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+
+        <!-- Champ Password -->
+        <PasswordField layoutX="171.0" layoutY="350.0" prefWidth="370.0" fx:id="passwordField" promptText="Enter your password"/>
+
+        <!-- Bouton OK -->
+        <!-- Bouton OK -->
+        <!-- Bouton OK -->
+        <Button layoutX="171.0" layoutY="400.0" text="OK" prefWidth="180.0"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px;"
+                fx:id="okButton" onAction="#handleCreate"/>
+
+        <!-- Bouton Retour -->
+        <Button layoutX="361.0" layoutY="400.0" text="Retour" prefWidth="180.0"
+                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px;"
+                fx:id="backButton" onAction="#handleBackToLogin"/>
+
     </children>
-</Pane>
+</AnchorPane>
