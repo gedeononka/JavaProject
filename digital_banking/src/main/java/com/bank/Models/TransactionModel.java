@@ -9,7 +9,7 @@ public class TransactionModel {
     private Double mnt_op;
     private long num_c_em;
 
-    public  TransactionModel(){};
+    public  TransactionModel(){}
 
     public TransactionModel(long num_op, Date date_op, Double mnt_op, long num_c_em) {
         this.num_op = num_op;

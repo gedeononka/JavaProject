@@ -22,6 +22,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -504,11 +506,20 @@ public class transactionController implements Initializable {
     @FXML
     public void saveDepotPDF() {
         generateDepotPDF(tv_depot.getItems(), "depot.pdf");
+        showSuccessAlert("Le fichier dépôt a été généré avec succès !");
+    }
+    private void showSuccessAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Succès");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML
     public void saveRetraitPDF() {
         generateRetraitPDF(tv_retrait.getItems(), "retrait.pdf");
+        showSuccessAlert("Le fichier retrait a été généré avec succès !");
     }
 
 
@@ -519,8 +530,9 @@ public class transactionController implements Initializable {
             Document document = new Document(pdf);
 
             document.add(new Paragraph("Dépôts").setFontSize(18));
-            document.add(new Paragraph("Date: " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())));
-
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            document.add(new Paragraph("Date: " + now.format(formatter)));
             for (DepotModel transaction : transactions) {
                 document.add(new Paragraph(transaction.toString()));
             }
@@ -539,7 +551,9 @@ public class transactionController implements Initializable {
             Document document = new Document(pdf);
 
             document.add(new Paragraph("Retraits").setFontSize(18));
-            document.add(new Paragraph("Date: " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())));
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            document.add(new Paragraph("Date: " + now.format(formatter)));
 
             for (RetraitModel transaction : transactions) {
                 document.add(new Paragraph(transaction.toString()));

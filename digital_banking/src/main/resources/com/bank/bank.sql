@@ -40,16 +40,7 @@ CREATE TABLE `clients` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `clients`
---
-
-INSERT INTO `clients` (`id_clt`, `nomPrenom`, `date_n`, `tel`, `email`, `adr`) VALUES(1, 'Oumayma Redissi', '2001-12-11', '90909090', 'oumayma@oumayma.com', 'azertyuiopqsdfghjklmcvbn, fgbnyt,u');
-INSERT INTO `clients` (`id_clt`, `nomPrenom`, `date_n`, `tel`, `email`, `adr`) VALUES(2, 'Chaima Mezgar', '2001-12-20', 'aaaa', 'chaima@chaima.com', 'esxrdtfyguhjikosezrdctvygbhunji,ksedrctfgyhbnjisetdrcfgybhujidxcfgvhbj');
-INSERT INTO `clients` (`id_clt`, `nomPrenom`, `date_n`, `tel`, `email`, `adr`) VALUES(22, 'LINA REDISSI', '2006-12-16', '22334455', 'LINA@LINA.COM', 'AZERTY');
-INSERT INTO `clients` (`id_clt`, `nomPrenom`, `date_n`, `tel`, `email`, `adr`) VALUES(36, 'Mahmoud Mzoughi', '2021-12-15', '1919199191', 'gfchgvjhkj@lkjhgfc', 'plmkoijuhgfghjkl');
-INSERT INTO `clients` (`id_clt`, `nomPrenom`, `date_n`, `tel`, `email`, `adr`) VALUES(98765432, 'KIJHUFYD6E5SYDTFYGH', '2021-12-17', '23456789', 'ZERTYUGHJ', 'JNBGSZDFGBHJK. ');
-
--- --------------------------------------------------------
+-- Dumping data for table `clients`------------------------------------------
 
 --
 -- Table structure for table `comptes`
@@ -63,23 +54,19 @@ CREATE TABLE `comptes` (
   `id_c` bigint(30) NOT NULL,
   `etat` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- Table `users`
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+                         `id_user` BIGINT(30) NOT NULL AUTO_INCREMENT,
+                         `username` VARCHAR(50) NOT NULL UNIQUE,
+                         `password` VARCHAR(255) NOT NULL,
+                         `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                         PRIMARY KEY (`id_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `comptes`
 --
-
-INSERT INTO `comptes` (`num_c`, `type_c`, `solde_c`, `id_c`, `etat`) VALUES(2, 'COURANT', 11888, 1, 1);
-INSERT INTO `comptes` (`num_c`, `type_c`, `solde_c`, `id_c`, `etat`) VALUES(3, 'COURANT', 100, 1, 1);
-INSERT INTO `comptes` (`num_c`, `type_c`, `solde_c`, `id_c`, `etat`) VALUES(4, 'EPARGNE', 0, 1, 1);
-INSERT INTO `comptes` (`num_c`, `type_c`, `solde_c`, `id_c`, `etat`) VALUES(5, 'COURANT', 0, 2, 1);
-INSERT INTO `comptes` (`num_c`, `type_c`, `solde_c`, `id_c`, `etat`) VALUES(6, 'COURANT', 1300, 2, 1);
-INSERT INTO `comptes` (`num_c`, `type_c`, `solde_c`, `id_c`, `etat`) VALUES(7, 'EPARGNE', 300, 2, 1);
-INSERT INTO `comptes` (`num_c`, `type_c`, `solde_c`, `id_c`, `etat`) VALUES(8, 'EPARGNE', 0, 1, 1);
-INSERT INTO `comptes` (`num_c`, `type_c`, `solde_c`, `id_c`, `etat`) VALUES(9, 'EPARGNE', -20, 36, 1);
-INSERT INTO `comptes` (`num_c`, `type_c`, `solde_c`, `id_c`, `etat`) VALUES(10, 'EPARGNE', 0, 2, 1);
-INSERT INTO `comptes` (`num_c`, `type_c`, `solde_c`, `id_c`, `etat`) VALUES(11, 'COURANT', 0, 2, 1);
-INSERT INTO `comptes` (`num_c`, `type_c`, `solde_c`, `id_c`, `etat`) VALUES(12, 'COURANT', 400, 36, 1);
-INSERT INTO `comptes` (`num_c`, `type_c`, `solde_c`, `id_c`, `etat`) VALUES(13, 'EPARGNE', 859999890833408, 22, 1);
 
 -- --------------------------------------------------------
 
@@ -99,7 +86,7 @@ CREATE TABLE `operations` (
 
 INSERT INTO `operations` (`id_op`, `nom_op`) VALUES(1, 'Depot');
 INSERT INTO `operations` (`id_op`, `nom_op`) VALUES(2, 'Retrait');
-INSERT INTO `operations` (`id_op`, `nom_op`) VALUES(3, 'Virement');
+
 
 -- --------------------------------------------------------
 
@@ -121,39 +108,6 @@ CREATE TABLE `transactions` (
 -- Dumping data for table `transactions`
 --
 
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9090990, 1, '2021-12-13 21:07:06', 90000, 2, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9090991, 2, '2021-12-13 21:17:27', 90000, 8, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9090992, 3, '2021-12-13 21:31:48', 90001, 7, 4);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9090993, 1, '2021-12-13 23:57:44', 1234, 2, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9090995, 1, '2021-12-14 00:29:50', 1234, 2, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9090996, 1, '2021-12-14 00:00:00', 900, 2, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9090997, 1, '2021-12-14 00:00:00', 400, 4, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9090998, 1, '2021-12-14 00:00:00', 400, 4, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9090999, 1, '2021-12-14 00:00:00', 5000, 2, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091000, 1, '2021-12-14 00:00:00', 5000, 2, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091001, 3, '2021-12-14 00:00:00', 300, 4, 6);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091002, 3, '2021-12-14 00:00:00', 300, 4, 6);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091003, 3, '2021-12-14 00:00:00', 400, 4, 7);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091004, 2, '2021-12-14 00:00:00', 700, 2, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091005, 2, '2021-12-14 00:00:00', 700, 2, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091006, 2, '2021-12-14 00:00:00', 1000, 2, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091007, 1, '2021-12-14 00:00:00', 980, 9, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091008, 2, '2021-12-14 00:00:00', 100, 9, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091009, 2, '2021-12-14 00:00:00', 1000, 9, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091010, 3, '2021-12-14 00:00:00', 100, 9, 2);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091011, 1, '2021-12-14 00:00:00', 400, 12, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091012, 3, '2021-12-14 00:00:00', 12, 2, 3);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091013, 1, '2021-12-14 00:00:00', 1e15, 13, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091014, 2, '2021-12-14 00:00:00', 100000000000000, 13, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091015, 2, '2021-12-14 00:00:00', 10000000000000, 13, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091016, 2, '2021-12-14 00:00:00', 10000000000000, 13, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091017, 2, '2021-12-14 00:00:00', 10000000000000, 13, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091018, 2, '2021-12-14 00:00:00', 10000000000000, 13, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091019, 2, '2021-12-14 00:00:00', 1, 3, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091020, 2, '2021-12-14 00:00:00', 11, 3, NULL);
-INSERT INTO `transactions` (`num_op`, `type_op`, `date_op`, `mnt_op`, `num_c_em`, `num_c_ben`) VALUES(9091021, 3, '2021-12-14 00:00:00', 100, 7, 3);
-
---
 -- Indexes for dumped tables
 --
 
@@ -193,13 +147,13 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `comptes`
 --
 ALTER TABLE `comptes`
-  MODIFY `num_c` bigint(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `num_c` bigint(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 
 --
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `num_op` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9091022;
+  MODIFY `num_op` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 
 --
 -- Constraints for dumped tables
