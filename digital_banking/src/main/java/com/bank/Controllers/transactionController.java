@@ -4,6 +4,8 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
+
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import com.bank.DB;
@@ -14,6 +16,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.FileOutputStream;
 import java.net.URL;
@@ -505,9 +509,24 @@ public class transactionController implements Initializable {
 
     @FXML
     public void saveDepotPDF() {
-        generateDepotPDF(tv_depot.getItems(), "depot.pdf");
-        showSuccessAlert("Le fichier dépôt a été généré avec succès !");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Enregistrer le fichier PDF");
+
+        // Définir une extension par défaut
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers PDF", "*.pdf"));
+
+        // Ouvrir la boîte de dialogue de sauvegarde
+        File file = fileChooser.showSaveDialog(new Stage());
+
+        if (file != null) {
+            generateDepotPDF(tv_depot.getItems(), file.getAbsolutePath()); // Sauvegarde avec le chemin sélectionné
+            showSuccessAlert("Le fichier dépôt a été généré avec succès à : " + file.getAbsolutePath());
+        } else {
+            showErrorAlert("Sauvegarde annulée.");
+        }
     }
+
+    // Affichage d'une alerte de succès
     private void showSuccessAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Succès");
@@ -516,12 +535,50 @@ public class transactionController implements Initializable {
         alert.showAndWait();
     }
 
+    // Affichage d'une alerte d'erreur (en cas d'annulation ou d'erreur)
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
     @FXML
     public void saveRetraitPDF() {
-        generateRetraitPDF(tv_retrait.getItems(), "retrait.pdf");
-        showSuccessAlert("Le fichier retrait a été généré avec succès !");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Enregistrer le fichier Retrait PDF");
+
+        // Définir une extension par défaut
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers PDF", "*.pdf"));
+
+        // Ouvrir la boîte de dialogue pour choisir l'emplacement
+        File file = fileChooser.showSaveDialog(new Stage());
+
+        if (file != null) {  // Vérifier si l'utilisateur a sélectionné un emplacement
+            generateRetraitPDF(tv_retrait.getItems(), file.getAbsolutePath()); // Sauvegarde avec le chemin choisi
+            showSuccessAlert("Le fichier retrait a été généré avec succès à : " + file.getAbsolutePath());
+        } else {
+            showErrorAlert("Sauvegarde annulée.");
+        }
     }
 
+    // Affichage d'une alerte de succès
+    private void SuccessAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Succès");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    // Affichage d'une alerte d'erreur (en cas d'annulation ou d'erreur)
+    private void ErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
     private void generateDepotPDF(ObservableList<DepotModel> transactions, String fileName) {
         try {
